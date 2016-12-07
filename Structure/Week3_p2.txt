@@ -1,0 +1,33 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+int n;
+int number=0;
+stack<int> a;
+void fun(int i,const int n )
+{
+    if(i == n+1)
+        ++number;
+    else
+    {
+        a.push(i);//入栈
+        fun(i+1,n);
+        a.pop();//为保持stack不变，出栈
+        
+        if(!a.empty())//将栈顶元素输出
+        {
+            int top;//用来取top
+            top=a.top();
+            a.pop();
+            fun(i,n);//i不变
+            a.push(top);
+        }
+    }
+}
+int main()
+{
+    cin>>n;
+    fun(1,n);
+    cout<<number<<endl;
+    return 0;
+}

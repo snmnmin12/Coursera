@@ -1,0 +1,144 @@
+//
+//  Week7_3.cpp
+//  Structure
+//
+//  Created by Song on 1/17/16.
+//  Copyright © 2016 Song. All rights reserved.
+//
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
+template <class T>
+class ParTreeNode {
+public:
+    T value;
+    ParTreeNode<T>* parent;
+    int relation;
+public:
+    ParTreeNode(){}
+    virtual~ParTreeNode(){};
+    T getValue(){return value;}
+    void setValue(const T&val){value=val;}
+    ParTreeNode<T>* getParent(){return parent;}
+    void setParent(ParTreeNode<T>* par){parent=par;}
+};
+template<class T>
+class ParTree
+{
+public:
+    ParTreeNode<T>* array;
+    int Size;
+    ParTreeNode<T>*
+    Find(ParTreeNode<T>* node) const;
+    ParTreeNode<T>* FindPC(ParTreeNode<T>* node) const;
+    ParTree(const int size);
+    int GetRelation(int i){return array[i].relation;}
+    virtual~ParTree(){}
+    bool Union(int i,int j,int r);
+    bool Different(int i, int j);
+    void PrintParent();
+};
+template<class T>
+ParTree<T>::ParTree(const int n)
+{
+    if (n<0)
+    {
+        array=NULL;
+        Size=0;
+    }
+    else
+    {
+        Size=n;
+        array=new ParTreeNode<T>[Size+1];
+        for (int i=0; i<=n; i++)
+        {
+            array[i].setValue(i);
+            array[i].setParent(NULL);
+            array[i].relation=0;
+        }
+    }
+
+}
+template<class T>
+ParTreeNode<T>* ParTree<T>::Find(ParTreeNode<T>* node) const
+{
+    ParTreeNode<T>* pointer=node;
+    while (pointer->getParent()!=NULL)
+    {
+        pointer=pointer->getParent();
+    }
+    return pointer;
+}
+template<class T>
+bool ParTree<T>::Union(int i, int j, int r)
+{
+    ParTreeNode<T>* pointeri=FindPC(&array[i]);
+    ParTreeNode<T>* pointerj=FindPC(&array[j]);
+    if(pointeri!=pointerj)
+    {
+        pointerj->setParent(pointeri);
+        pointerj->relation=(3+r-1+array[i].relation-array[j].relation)%3;
+        return true;
+    }
+    else return false;
+    
+}
+
+template <class T>
+ParTreeNode<T>*
+ParTree<T>::FindPC(ParTreeNode<T>* node) const
+{
+    if (node->getParent() == NULL)
+        return node;
+    ParTreeNode<T>* tmp=node->getParent();
+    node->setParent(FindPC(node->getParent()));
+    node->relation=(tmp->relation+node->relation)%3;
+    return node->getParent();
+}
+
+template<class T>
+void ParTree<T>::PrintParent()
+{
+    for (int i=0; i<=Size; i++)
+        if(array[i].getParent()!=NULL)
+        cout<<array[i].getParent()->getValue()<<" ";
+        else
+            cout<<array[i].getValue()<<" ";
+    cout<<endl;
+}
+
+int main()
+{
+   
+    int n, k,coun;
+    scanf("%d%d",&n,&k);
+    {
+        coun=0;
+        int x,y,z;
+        ParTree<int> pt(n);
+        for (int i=0; i<k; i++)
+        {
+            scanf("%d%d%d",&z,&x,&y);
+            if (x>n||y>n)
+                coun++;
+            else if(z==2 && x==y)
+                coun++;
+            else
+            {
+                if(!pt.Union(x, y, z))
+                {
+                    if(z==1 && (pt.GetRelation(x)!=pt.GetRelation(y)))
+                    coun++;
+                    else if(z==2 && (pt.GetRelation(y)-pt.GetRelation(x)+3)%3!=1)
+                    coun++;
+                }
+                
+                
+            }
+        }
+         printf("%d\n",coun);
+    }
+   
+    return 0;
+}

@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <cstring>
+using namespace std;
+int next[1000100];
+char str[1000100];
+void findNext() {
+    int j, k;
+    int m = strlen(str); 
+    next[0] = -1;
+    j = 0; k = -1;
+    while (j <= m-1) {
+        while (k >= 0 && str[k] != str[j])
+            k = next[k]; 
+        j++; k++; next[j] = k;
+    }
+}
+int main()
+{
+    int n;
+    int count=1;
+    while (scanf("%d",&n),n)
+    {
+        scanf("%s",str);
+        findNext();
+        printf("Test case #%d\n",count++);
+        for (int i=1; i<=n; i++)
+        {
+            int temp=i-next[i];
+            if (i%temp==0 && i/temp>1) {
+                printf("%d %d",i,i/temp);
+                printf("\n");
+            }
+        }
+      printf("\n");
+    }
+    
+    return 0;
+}

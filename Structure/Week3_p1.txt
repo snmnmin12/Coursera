@@ -1,0 +1,33 @@
+#include <iostream>
+#include <queue>
+#include <string>
+using namespace std;
+int main()
+{
+    queue<char> que1;
+    string str;
+    int n;
+    cin>>n;
+    cin.get();
+    while (n--)
+    {
+        getline(cin,str);
+        for (int i=0; i<str.size(); i++)
+            que1.push(str[i]);
+        while (!que1.empty()) {
+            char c=que1.front();
+            if ((c>=65 && c<=90) || (c>=97 && c<=122) )
+            {
+                if (c==90) cout<<'A';
+                else if(c==122) cout<<'a';
+                else cout<<(char)(c+1);
+                
+            }
+            else
+                cout<<c;
+            que1.pop();
+        }
+        cout<<endl;
+    }
+    return 0;
+}

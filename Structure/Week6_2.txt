@@ -1,0 +1,98 @@
+#include <iostream>
+using namespace std;
+template <class T>
+struct BSTNode
+{
+    BSTNode(const T& e, BSTNode* le=0, BSTNode* ri=0 )
+    {
+        el=e;left=le;right=ri;
+    }
+    T el;
+    BSTNode<T>*left;
+    BSTNode<T>*right;
+};
+
+template <class T>
+class BSTTree
+{
+public:
+    BSTTree(){root=0;}
+    ~BSTTree(){}
+    bool search(const T& e);
+    void insert(const T& e);
+    void preorder(){preorder(root);}
+    void postorder(){postorder(root);}
+private:
+    BSTNode<T>* root;
+    void preorder(BSTNode<T> *p);
+    void postorder(BSTNode<T>* p);
+};
+template <class T>
+bool BSTTree<T>::search(const T& e)
+{
+    BSTNode<T>* p=root;
+    while (p!=0)
+    {
+        if (p->el==e) return true;
+        else if(e<p->el) p=p->left;
+        else p=p->right;
+    }
+    return false;
+}
+
+template <class T>
+void BSTTree<T>::insert(const T& e)
+{
+    BSTNode<T>*p=root,*prev=root;
+
+    while (p!=0)
+    {
+        if (e<p->el)
+        {prev=p;p=p->left;}
+        else if(e>p->el)
+        {
+            prev=p;
+            p=p->right;
+        }
+    }
+    if (root==0) root=new BSTNode<T>(e);
+    else if (e<prev->el)
+    prev->left= new BSTNode<T>(e);
+    else prev->right=new  BSTNode<T>(e);
+}
+template<class T>
+void BSTTree<T>::postorder(BSTNode<T>* p)
+{
+    if (p!=0)
+    {
+        postorder(p->left);
+        postorder(p->right);
+        cout<<p->el<<" ";
+    }
+}
+template<class T>
+void BSTTree<T>::preorder(BSTNode<T>* p)
+{
+    if (p!=0)
+    {
+        cout<<p->el<<" ";
+        preorder(p->left);
+        preorder(p->right);
+    }
+}
+
+int main()
+{
+    BSTTree<int> bs;
+    int num;
+    char ch;
+    while (cin>>num)
+    {
+        if (!bs.search(num))
+        bs.insert(num);
+        cin.get(ch);
+        if (ch=='\n') break;
+    }
+    bs.preorder();
+    cout<<endl;
+}
