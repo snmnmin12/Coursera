@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <cstring>
+#include <stack>
+using namespace std;
+int N;
+char num[32];
+int len;
+int maxvalue;
+int countN;
+stack<int> st2,st1;
+void dfs(int curr, int index)
+{
+    if (curr>N) return;
+    if (index==len) {
+    if (curr!=0 && maxvalue<=curr) {
+        if(maxvalue==curr)countN++;
+        else countN=1;
+        st2=st1;
+        maxvalue=curr;
+        return;
+    }
+    }
+    int temp=0;
+    for (int j=index; j<len; j++) {
+        temp=10*temp+num[j]-'0';
+        if (temp<=N && curr+temp<=N) {
+            st1.push(temp);
+            curr+=temp;
+            dfs(curr, j+1);
+            curr-=temp;
+            st1.pop();
+        }
+    }
+}
+int main()
+{
+    //int len;
+    while(scanf("%d %s",&N,num))
+    {
+        if (N==0 && num[0]=='0') break;
+        len=strlen(num);
+        maxvalue=0;
+        countN=1;
+        dfs(0,0);
+        if (maxvalue==0)
+            printf("error\n");
+        else if(countN>1)
+            printf("rejected\n");
+        else
+        {
+         printf("%d ",maxvalue);
+            stack<int> st3;
+            while (!st2.empty()) {st3.push(st2.top());st2.pop();}
+            while (!st3.empty()) { printf("%d ",st3.top());st3.pop();}
+            printf("\n");
+        }
+    }
+
+
+}

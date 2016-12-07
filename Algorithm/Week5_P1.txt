@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <cstring>
+unsigned int S[250][250];
+int N;
+
+int pali(int n,int m){
+    //if (n==0) return S[0][m];
+    for (int i=m; i<=n; i++) {
+        if (n>=2*i) {
+            if (S[n-2*i][i]==0) S[n-2*i][i]=pali(n-2*i, i);
+            S[n][m]+=S[n-2*i][i];
+        }
+        else if(n==i) S[n][m]+=S[0][i];
+    }
+    return S[n][m];
+}
+
+int main()
+{
+    while(scanf(" %d",&N))
+    {
+    if (N==0) break;
+    memset(S, 0, sizeof(S));
+    for (int i=0; i<250; i++) S[0][i]=1;
+    printf("%d %u\n",N,pali(N, 1));
+    //printf("%u\n",N);
+    }
+}

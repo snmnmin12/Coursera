@@ -1,0 +1,86 @@
+////
+////  Week1_Prb1.cpp
+////  Algorithm
+////
+////  Created by Song on 11/30/15.
+////  Copyright © 2015 Song. All rights reserved.
+////
+//
+//#include <stdio.h>
+////#include <algorithm>
+////using namespace std;
+//
+//int wall[16][17];
+//int draw[16][17];
+//int n;
+//int number;
+//bool guess()
+//{
+//    int i,j;
+//    for (i=1; i<n; i++)
+//    for (j=1; j<n+1; j++)
+//    draw[i+1][j]=(draw[i][j]+draw[i-1][j]+draw[i][j-1]+draw[i][j+1]+wall[i][j])%2;
+//    for (j=1; j<n+1; j++)
+//    {if (wall[n][j]!=(draw[n][j]+draw[n][j-1]+draw[n][j+1]+draw[n-1][j])%2)
+//        return false;
+//    }
+//    return true;
+//}
+//
+//void enumericate()
+//{
+//    int j;
+//    int temp=0;
+//    for (j=1; j<n+1; j++)
+//    draw[1][j]=0;
+//    int c;
+//    while (draw[1][n+1]!=1) {
+//        if (guess())
+//        {
+//            for ( int i=1;i<n+1;i++)
+//                for (int k=1;k<n+1;k++) {
+//                    if (draw[i][k]==1) temp++;
+//                }
+//            if (temp<number) number=temp;
+//        }
+//        draw[1][1]++;
+//        c=1;
+//        while(draw[1][c]>1) {
+//            draw[1][c++]=0;
+//            draw[1][c]+=1;
+//        }
+//    }
+//    
+//}
+//
+//
+//int main()
+//{
+//    int cases;
+//    int num;
+//    int i,j,k;
+//    char c;
+//    //freopen("painter.txt", "w", stdout);
+//    // 0 repsents yeallow, 1 represents white
+//    scanf("%d",&cases);
+//    for (num=0; num<cases; num++) {
+//        number=300;
+//        scanf("%d",&n);
+//        for (i=0; i<n+1; i++)
+//            draw[i][0]=draw[i][n+1]=0;
+//        for (j=1; j<n+1; j++)
+//            draw[0][j]=0;
+//        for (j=1; j<n+1; j++)
+//            for (k=1; k<n+1; k++)
+//            {  scanf(" %c",&c);
+//                wall[j][k]=(c=='y')?0:1;
+//            }
+//            enumericate();
+//        if (number<300)
+//            printf("%d\n",number);
+//        else
+//            printf("inf\n");
+//    }
+//    //fclose(stdout);
+//    return 0;
+//}

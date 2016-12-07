@@ -1,0 +1,70 @@
+#include <iostream>
+#include <cstring>
+#include <vector>
+#include <algorithm>
+using namespace std;
+struct lake{
+    int i;
+    int fi;
+    int di;
+    int ti;
+};
+struct compare{
+bool operator()(const lake& la1, const lake& la2) const {
+        if(la1.fi==la2.fi) return la1.i>la2.i;
+        else return la1.fi<la2.fi;
+    }
+}mycompare;
+lake la[30];
+lake la2[30];
+int stay[30];
+int beststay[30];
+int totoalfish;
+int maxfish;
+int main()
+{
+    int n;
+    int countN=0;
+    int totaltime;
+    while (cin>>n) {
+        if(!n) break;
+        if (countN++) cout<<endl;
+        maxfish=-1;
+        cin>>totaltime;
+        totaltime*=12;
+        for (int i=0; i<n; i++) {
+            la[i].i=i;
+            cin>>la[i].fi;
+        }
+        for (int i=0; i<n; i++) cin>>la[i].di;
+        la[0].ti=0;
+        for (int i=1; i<n; i++) cin>>la[i].ti;
+    
+        //int timeleft=totaltime;
+        for (int i=0; i<n; i++)
+        {
+            memcpy(la2, la, sizeof(la));
+            memset(stay, 0, sizeof(stay));
+            totoalfish=0;
+            totaltime-=la2[i].ti;
+            for (int j=0; j<totaltime; j++)
+            {
+             lake* maxfishindex=max_element(la2, la2+i+1,mycompare);
+             stay[maxfishindex->i]+=5;
+             totoalfish+=maxfishindex->fi;
+             maxfishindex->fi-=maxfishindex->di;
+             if (maxfishindex->fi<0) maxfishindex->fi=0;
+            }
+            if (totoalfish>maxfish)
+            {
+                maxfish=totoalfish;
+                memcpy(beststay, stay, sizeof(stay));
+            }
+        }
+        cout<<beststay[0];
+        for (int i=1; i<n;i++)
+        cout<<", "<<beststay[i];
+        cout<<endl<<"Number of fish expected: "<<maxfish<<endl;
+    }
+  
+}

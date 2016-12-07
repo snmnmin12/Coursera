@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <cstring>
+using namespace std;
+char qiz[8][8];
+bool visic[8];
+bool visir[8];
+int N,k;
+int num;
+void dfs(int i,int j, int k)
+{
+    if (k==0) {num++; return;}
+        for (int m=i; m<N; m++)
+        for (int n=0; n<N; n++)
+        if(qiz[m][n]=='#' && visic[n]==false && visir[m]==false)
+         {
+             visic[n]=true;visir[m]=true;
+             dfs(m, n, k-1);
+             visic[n]=false;visir[m]=false;
+         }
+    
+}
+int main()
+{
+    
+    
+    scanf(" %d%d", &N, &k);
+    while (N!=-1 && k!=-1) {
+        num=0;
+        for (int i=0; i<N; i++)
+        for (int j=0; j<N; j++)
+        scanf(" %c",&qiz[i][j]);
+        memset(visic, 0, sizeof(visic));
+        memset(visir, 0, sizeof(visir));
+        dfs(0,0,k);
+        printf("%d\n",num);
+        scanf(" %d%d", &N, &k);
+    }
+
+}

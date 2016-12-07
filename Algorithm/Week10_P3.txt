@@ -1,0 +1,18 @@
+#include <iostream>
+using namespace std;
+int integer(int N, int j)
+{
+    
+    if (N==1 ||j==1) return 1;
+    if (N<j) return integer(N, N);
+    else if (N==j) return 1+integer(N, j-1);
+    else  return (integer(N-j, j)+integer(N,j-1));
+}
+int main()
+{
+    int N;
+    while(cin>>N)
+    cout<<integer(N, N)<<endl;
+
+    return 0;
+}

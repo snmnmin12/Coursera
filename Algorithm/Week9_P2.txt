@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <iostream>
+#define manN 100010
+int c[manN],y[manN];
+using  namespace std;
+int main()
+{
+    //freopen("in2.txt", "r", stdin);
+    int N,S;
+    scanf("%d %d", &N,&S);
+    for (int i=0; i<N; i++)
+    scanf("%d%d",&c[i],&y[i]);
+    
+    int p=c[0];
+    int j=0;
+    long long int cost=c[0]*y[0];
+    for (int i=1; i<N; i++) {
+        if (p+(i-j)*S>c[i]) {p=c[i];j=i;}
+    else p=p+(i-j)*S;
+    cost+=p*y[i];
+    }
+    printf("%lld\n",cost);
+   // fclose(stdin);
+    return 0;
+}

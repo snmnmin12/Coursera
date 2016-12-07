@@ -1,0 +1,121 @@
+#include <stdio.h>
+#include <cstring>
+#include <stack>
+using namespace std;
+struct location{
+    char c;
+    int i;
+    location(int cc,int ii):c(cc),i(ii){}
+};
+bool visted[30][30];
+int R,C,k;
+stack<location> loc;
+bool dfs(int i, int j, int k)
+{
+    if (k==1)  return true;
+
+        if (i-1>=1 && j-2>=1 && visted[i-1][j-2]==0 )
+        {
+            visted[i-1][j-2]=1;
+           loc.push(location('A'+j-2-1,i-1));
+            if(dfs(i-1, j-2, k-1)) return true;
+            loc.pop();
+            visted[i-1][j-2]=0;
+        }
+        if (i+1<=R && j-2>=1 && visted[i+1][j-2]==0)
+        {
+            visted[i+1][j-2]=1;
+            loc.push(location('A'+j-2-1,i+1));
+            if(dfs(i+1, j-2, k-1)) return true;
+            loc.pop();
+            visted[i+1][j-2]=0;
+        }
+
+        if (i-2>=1 && j-1>=1 && visted[i-2][j-1]==0)
+        {
+            visted[i-2][j-1]=1;
+            loc.push(location('A'+j-1-1,i-2));
+            if(dfs(i-2, j-1, k-1)) return true;
+            loc.pop();
+            visted[i-2][j-1]=0;
+        }
+
+        if (i+2<=R && j-1>=1 && visted[i+2][j-1]==0)
+        {
+            visted[i+2][j-1]=1;
+            loc.push(location('A'+j-1-1,i+2));
+            if(dfs(i+2, j-1, k-1)) return true;
+            loc.pop();
+            visted[i+2][j-1]=0;
+        }
+        if (i-2>=1 && j+1<=C && visted[i-2][j+1]==0)
+        {
+            visted[i-2][j+1]=1;
+            loc.push(location('A'+j+1-1,i-2));
+            if(dfs(i-2, j+1, k-1)) return true;
+            loc.pop();
+            visted[i-2][j+1]=0;
+        }
+        if (i+2<=R && j+1<=C && visted[i+2][j+1]==0)
+        {
+            visted[i+2][j+1]=1;
+            loc.push(location('A'+j+1-1,i+2));
+            if(dfs(i+2, j+1, k-1)) return true;
+            loc.pop();
+            visted[i+2][j+1]=0;
+        }
+
+        if (i-1>=1 && j+2<=C && visted[i-1][j+2]==0)
+        {
+             visted[i-1][j+2]=1;
+            loc.push(location('A'+j+2-1,i-1));
+            if(dfs(i-1, j+2, k-1)) return true;
+            loc.pop();
+            visted[i-1][j+2]=0;
+        }
+
+        if (i+1<=R && j+2<=C && visted[i+1][j+2]==0)
+        {
+            visted[i+1][j+2]=1;
+            loc.push(location('A'+j+2-1,i+1));
+            if(dfs(i+1, j+2,k-1)) return true;
+            loc.pop();
+            visted[i+1][j+2]=0;
+        }
+    return false;
+  
+}
+int main()
+{
+    int total;
+    scanf("%d",&total);
+    for (int i=1; i<=total; i++) {
+    scanf("%d %d",&R,&C);
+    memset(visted, 0, sizeof(visted));
+    printf("Scenario #%d:\n",i);
+    while (!loc.empty()) loc.pop();
+    loc.push(location('A',1));
+        visted[1][1]=1;
+    if(!dfs(1, 1, R*C))
+    {
+        printf("impossible");printf("\n\n");
+    }
+    else
+    {
+        stack<location> loc2;
+        while (!loc.empty())
+        {
+        loc2.push(loc.top());
+        loc.pop();
+        }
+        while (!loc2.empty())
+        {
+        printf("%c%d",loc2.top().c,loc2.top().i);
+        loc2.pop();
+        }
+        printf("\n\n");
+        }
+    }
+    
+    return 0;
+}

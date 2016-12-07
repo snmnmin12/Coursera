@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <cmath>
+#include <iostream>
+using namespace std;
+
+int gcd(int M, int N){
+    if (N%M==0) return M;
+    return gcd(N,M%N);
+}
+
+int main()
+{
+    int M,N;
+    while (cin>>N>>M) {
+        cout<<(gcd(abs(M),abs(N)))<<endl;
+    }
+    
+    return 0;
+}

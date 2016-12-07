@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+#define MAXIN 100000
+int N,C;
+int a[MAXIN+10];
+bool check(int x)
+{
+    int prepos=a[0];
+    int countcow=1;
+    //int d=0;
+    for (int i=1; i<N; i++)
+    {
+        if (a[i]-prepos>=x) {
+            countcow++;
+            if (countcow==C) return true;
+            prepos=a[i];
+        }
+        
+    }
+
+    return false;
+}
+int main()
+{
+    scanf("%d %d",&N,&C);
+    for (int i=0; i<N; i++)
+    scanf("%d",&a[i]);
+    sort(a, a+N);
+    
+    int l=1;
+    int r=a[N-1]-a[0];
+    int mid;
+    while (r>=l) {
+        mid=(l+r)/2;
+        if (check(mid)) l=mid+1;
+        else r=mid-1;
+    }
+    printf("%d",r);
+
+    return 0;
+}
